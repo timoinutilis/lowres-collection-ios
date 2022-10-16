@@ -14,6 +14,11 @@
 
 @implementation ProgramCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.imageView.layer.magnificationFilter = kCAFilterNearest;
+}
+
 - (void)setupProgramModel:(ProgramModel *)programModel {
     self.programModel = programModel;
     self.imageView.image = programModel.image;

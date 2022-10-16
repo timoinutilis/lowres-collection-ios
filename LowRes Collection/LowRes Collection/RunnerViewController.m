@@ -82,9 +82,9 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSString *fullscreenKey = [self projectKeyFor:UserDefaultsFullscreenKey];
-    self.isFullscreen = [defaults objectForKey:fullscreenKey] ? [defaults boolForKey:fullscreenKey] : !self.runnable.usesGamepad;
+    self.isFullscreen = [defaults objectForKey:fullscreenKey] ? [defaults boolForKey:fullscreenKey] : NO;
     
-    NSString *soundKey = [self projectKeyFor:UserDefaultsSoundEnabledKey];
+    NSString *soundKey = UserDefaultsSoundEnabledKey;
     self.soundEnabled = [defaults objectForKey:soundKey] ? [defaults boolForKey:soundKey] : YES;
 
     NSString *persistentKey = [self projectKeyFor:UserDefaultsPersistentKey];
@@ -116,14 +116,6 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
 
 - (BOOL)prefersStatusBarHidden
 {
-    if (@available(iOS 11.0, *))
-    {
-        UIWindow *window = [UIApplication sharedApplication].delegate.window;
-        if (window.safeAreaInsets.top != 0)
-        {
-            return NO;
-        }
-    }
     return YES;
 }
 
@@ -158,7 +150,7 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:self.isFullscreen forKey:[self projectKeyFor:UserDefaultsFullscreenKey]];
-    [defaults setBool:self.soundEnabled forKey:[self projectKeyFor:UserDefaultsSoundEnabledKey]];
+    [defaults setBool:self.soundEnabled forKey:UserDefaultsSoundEnabledKey];
     
     if (!self.runner.isFinished && !self.runner.endRequested)
     {
@@ -174,7 +166,7 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
 
 - (NSString *)projectKeyFor:(NSString *)key
 {
-    return @"TODO";
+    return [NSString stringWithFormat:@"%@ %@", self.programName, key];
 }
 
 - (void)gameControllerDidConnect:(NSNotification *)notification
@@ -303,18 +295,18 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
     
     // gamepad
     CGFloat gamepadBottom = 11.0;
-    if (windowSize.width >= 768.0)
+/*    if (windowSize.width >= 768.0)
     {
         gamepadBottom = 88.0;
     }
-    else if (!self.isFullscreen)
+    else*/ if (!self.isFullscreen)
     {
         if (isPanorama)
         {
-            if (windowSize.width >= 568.0)
+/*            if (windowSize.width >= 568.0)
             {
                 gamepadBottom = (windowSize.width >= 667.0) ? 88.0 : 44.0;
-            }
+            }*/
         }
         else
         {
@@ -519,7 +511,7 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
 
 - (BOOL)isButtonDown:(ButtonType)type
 {
-    GCGamepad *gamePad = self.gameController.gamepad;
+    GCExtendedGamepad *gamePad = self.gameController.extendedGamepad;
     GCControllerDirectionPad *extDirPad = self.gameController.extendedGamepad.leftThumbstick;
     
     switch (type)

@@ -34,12 +34,21 @@
     for (int i = 0; i < files.count; i++) {
         NSString *filename = files[i];
         ProgramModel *program = [[ProgramModel alloc] init];
+        program.name = [[filename lastPathComponent] stringByDeletingPathExtension];
         program.sourceCodePath = filename;
         program.imagePath = [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
         [self.programs addObject:program];
     }
     
     self.runnerStoryboard = [UIStoryboard storyboardWithName:@"Runner" bundle:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSIndexPath *indexPath = self.collectionView.indexPathsForSelectedItems.firstObject;
+    if (indexPath != nil) {
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -55,21 +64,23 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGSize frameSize = collectionView.frame.size;
     CGFloat width = frameSize.width;
-    if (frameSize.width > frameSize.height) {
-        width = width / 3.0f;
+    if (frameSize.width > frameSize.height || frameSize.width > 640.0) {
+        width = width * 0.5;
     }
-    return CGSizeMake(width, width * 0.8f);
+    return CGSizeMake(width, floor(width * 0.8));
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     ProgramModel *program = self.programs[indexPath.item];
-    NSLog(@"Code: %@", program.sourceCode);
     
-    NSError *error;
-    Runnable *runnable = [Compiler compileSourceCode:program.sourceCode error:&error];
+    if (program.runnable == nil) {
+        NSError *error;
+        program.runnable = [Compiler compileSourceCode:program.sourceCode error:&error];
+    }
     
     RunnerViewController *vc = [self.runnerStoryboard instantiateInitialViewController];
-    vc.runnable = runnable;
+    vc.runnable = program.runnable;
+    vc.programName = program.name;
     [self presentViewController:vc animated:YES completion:nil];
 }
 

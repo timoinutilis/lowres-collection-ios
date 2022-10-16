@@ -13,5 +13,6 @@
 @interface RunnerViewController : UIViewController
 
 @property Runnable *runnable;
+@property NSString *programName;
 
 @end

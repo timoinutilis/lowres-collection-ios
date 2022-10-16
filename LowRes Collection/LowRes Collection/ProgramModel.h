@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Runnable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -13,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property NSString *sourceCodePath;
 @property NSString *imagePath;
+@property NSString *name;
+@property Runnable *runnable;
 
 - (UIImage *)image;
 - (NSString *)sourceCode;

@@ -49,6 +49,7 @@
     if (indexPath != nil) {
         [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
     }
+    [self.collectionView flashScrollIndicators];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -74,10 +75,21 @@
     ProgramModel *program = self.programs[indexPath.item];
     
     if (program.runnable == nil) {
-        NSError *error;
-        program.runnable = [Compiler compileSourceCode:program.sourceCode error:&error];
+        self.collectionView.userInteractionEnabled = NO;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSError *error;
+            program.runnable = [Compiler compileSourceCode:program.sourceCode error:&error];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.collectionView.userInteractionEnabled = YES;
+                [self presentProgram:program];
+            });
+        });
+    } else {
+        [self presentProgram:program];
     }
-    
+}
+
+- (void)presentProgram:(ProgramModel *)program {
     RunnerViewController *vc = [self.runnerStoryboard instantiateInitialViewController];
     vc.runnable = program.runnable;
     vc.programName = program.name;

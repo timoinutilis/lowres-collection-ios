@@ -119,6 +119,10 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
     return YES;
 }
 
+- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures {
+    return UIRectEdgeAll;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;
@@ -295,27 +299,15 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
     
     // gamepad
     CGFloat gamepadBottom = 11.0;
-/*    if (windowSize.width >= 768.0)
+    if (!self.isFullscreen)
     {
-        gamepadBottom = 88.0;
-    }
-    else*/ if (!self.isFullscreen)
-    {
-        if (isPanorama)
-        {
-/*            if (windowSize.width >= 568.0)
-            {
-                gamepadBottom = (windowSize.width >= 667.0) ? 88.0 : 44.0;
-            }*/
-        }
-        else
+        if (!isPanorama)
         {
             if (windowSize.height >= 568)
             {
                 gamepadBottom = (windowSize.height >= 667) ? 88.0 : 44.0;
             }
         }
-
     }
     self.constraintGamepad.constant = gamepadBottom;
     self.constraintButtons.constant = gamepadBottom - 10.0;

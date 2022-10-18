@@ -52,6 +52,18 @@
     [self.collectionView flashScrollIndicators];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    
+    CGSize frameSize = self.collectionView.frame.size;
+    CGFloat width = frameSize.width;
+    if (frameSize.width > frameSize.height || frameSize.width > 640.0) {
+        width = width * 0.5;
+    }
+    layout.itemSize = CGSizeMake(width, floor(width * 0.8));
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.programs.count;
 }
@@ -60,15 +72,6 @@
     ProgramCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"ProgramCell" forIndexPath:indexPath];
     [cell setupProgramModel:self.programs[indexPath.item]];
     return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGSize frameSize = collectionView.frame.size;
-    CGFloat width = frameSize.width;
-    if (frameSize.width > frameSize.height || frameSize.width > 640.0) {
-        width = width * 0.5;
-    }
-    return CGSizeMake(width, floor(width * 0.8));
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

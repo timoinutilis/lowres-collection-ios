@@ -25,5 +25,6 @@ typedef NS_ENUM(NSInteger, ButtonType) {
 - (int)currentGamepadFlags;
 - (void)setGamepadModeWithPlayers:(int)players;
 - (void)setKeyboardActive:(BOOL)active;
+- (void)submitHighscore:(int)score;
 
 @end

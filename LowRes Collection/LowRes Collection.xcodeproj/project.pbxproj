@@ -36,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		22E0A1E3290922980037637F /* LowRes Collection.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LowRes Collection.entitlements"; sourceTree = "<group>"; };
 		92110C4B28F5707900F85C55 /* LowRes Collection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LowRes Collection.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		92110C4E28F5707900F85C55 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		92110C4F28F5707900F85C55 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -118,6 +119,7 @@
 		92110C4D28F5707900F85C55 /* LowRes Collection */ = {
 			isa = PBXGroup;
 			children = (
+				22E0A1E3290922980037637F /* LowRes Collection.entitlements */,
 				928213EE28F8096500D732D6 /* Views */,
 				928213D728F807E700D732D6 /* Runtime */,
 				928213C128F807B500D732D6 /* Compiler */,
@@ -430,6 +432,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LowRes Collection/LowRes Collection.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = BZ4VC623NH;
@@ -460,6 +463,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LowRes Collection/LowRes Collection.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = BZ4VC623NH;

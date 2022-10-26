@@ -528,3 +528,7 @@
 @property (nonatomic) TType type;
 @property (nonatomic) Node *expression;
 @end
+
+@interface SubmitScoreNode : Node
+@property (nonatomic) Node *scoreExpression;
+@end

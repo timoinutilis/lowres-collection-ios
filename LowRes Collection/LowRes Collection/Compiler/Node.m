@@ -3584,3 +3584,25 @@ NSString *const TRANSFER = @"TRANSFER";
 }
 
 @end
+
+@implementation SubmitScoreNode
+
+- (void)prepareWithRunnable:(Runnable *)runnable pass:(PrePass)pass
+{
+    [self.scoreExpression prepareWithRunnable:runnable pass:pass canBeString:NO];
+}
+
+- (id)evaluateWithRunner:(Runner *)runner
+{
+    Number *score = [self.scoreExpression evaluateNumberWithRunner:runner min:0];
+    if (runner.error)
+    {
+        return nil;
+    }
+    
+    [runner.delegate submitHighscore:score.intValue];
+    [runner next];
+    return nil;
+}
+
+@end

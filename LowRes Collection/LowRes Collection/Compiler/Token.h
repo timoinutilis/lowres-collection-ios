@@ -77,6 +77,7 @@ typedef NS_ENUM(NSInteger, TType) {
     TTypeSymFont,
     TTypeSymZoom,
     TTypeSymBlock,
+    TTypeSymSubmitScore,
     TTypeSymUp,
     TTypeSymDown,
     TTypeSymLeft,

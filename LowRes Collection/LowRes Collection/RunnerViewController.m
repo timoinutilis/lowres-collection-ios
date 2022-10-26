@@ -16,7 +16,7 @@
 #import "Runnable.h"
 #import "VariableManager.h"
 #import <GameController/GameController.h>
-#import <ReplayKit/ReplayKit.h>
+#import <GameKit/GameKit.h>
 
 NSString *const UserDefaultsFullscreenKey = @"fullscreen";
 NSString *const UserDefaultsSoundEnabledKey = @"soundEnabled";
@@ -601,6 +601,22 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
                 [self resignFirstResponder];
             }
         });
+    }
+}
+
+- (void)submitHighscore:(int)score
+{
+    if (@available(iOS 14.0, *)) {
+        GKLocalPlayer *player = [GKLocalPlayer localPlayer];
+        if (player != nil)
+        {
+            [GKLeaderboard submitScore:score context:0 player:player leaderboardIDs:@[self.programName] completionHandler:^(NSError * _Nullable error) {
+                if (error != nil)
+                {
+                    NSLog(@"** submitScore error: %@", error.localizedDescription);
+                }
+            }];
+        }
     }
 }
 

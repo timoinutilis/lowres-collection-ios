@@ -81,6 +81,7 @@
         case TTypeSymFont: return @"FONT";
         case TTypeSymZoom: return @"ZOOM";
         case TTypeSymBlock: return @"BLOCK";
+        case TTypeSymSubmitScore: return @"SUBMITSCORE";
         case TTypeSymUp: return @"UP";
         case TTypeSymDown: return @"DOWN";
         case TTypeSymLeft: return @"LEFT";

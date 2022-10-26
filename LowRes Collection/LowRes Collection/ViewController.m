@@ -12,6 +12,7 @@
 #import "Compiler/Compiler.h"
 #import "Compiler/Runnable.h"
 #import <StoreKit/StoreKit.h>
+#import <GameKit/GameKit.h>
 
 NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
 
@@ -44,6 +45,17 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
     }
     
     self.runnerStoryboard = [UIStoryboard storyboardWithName:@"Runner" bundle:nil];
+    
+    if (@available(iOS 14.0, *)) {
+        [[GKLocalPlayer localPlayer] setAuthenticateHandler:^(UIViewController *viewController, NSError *error) {
+            if (viewController != nil) {
+                [self presentViewController:viewController animated:YES completion:nil];
+            }
+            if (error != nil) {
+                NSLog(@"** setAuthenticateHandler error: %@", error.localizedDescription);
+            }
+        }];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -56,6 +68,19 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
     
     if ([self numProgramsOpened] == 10) {
         [SKStoreReviewController requestReview];
+    }
+    
+    if (@available(iOS 14.0, *)) {
+        [[GKAccessPoint shared] setLocation:GKAccessPointLocationBottomLeading];
+        [[GKAccessPoint shared] setShowHighlights:YES];
+        [[GKAccessPoint shared] setActive:YES];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (@available(iOS 14.0, *)) {
+        [[GKAccessPoint shared] setActive:NO];
     }
 }
 

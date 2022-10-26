@@ -447,6 +447,10 @@
             }
             break;
         }
+        case TTypeSymSubmitScore: {
+            node = [self acceptSubmitScore];
+            break;
+        }
         case TTypeSymLeftS:
             node = [self acceptLeftS];
             break;
@@ -519,6 +523,7 @@
         case TTypeSymLeftS:
         case TTypeSymRightS:
         case TTypeSymMid:
+        case TTypeSymSubmitScore:
             return YES;
         
         case TTypeSymEnd: {
@@ -1520,6 +1525,14 @@
     {
         node.maskExpression = [self acceptExpression];
     }
+    return node;
+}
+
+- (Node *)acceptSubmitScore
+{
+    SubmitScoreNode *node = [[SubmitScoreNode alloc] init];
+    [self accept:TTypeSymSubmitScore];
+    node.scoreExpression = [self acceptExpression];
     return node;
 }
 

@@ -11,6 +11,9 @@
 #import "RunnerViewController.h"
 #import "Compiler/Compiler.h"
 #import "Compiler/Runnable.h"
+#import <StoreKit/StoreKit.h>
+
+NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
 
 @interface ViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource>
 
@@ -50,6 +53,10 @@
         [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
     }
     [self.collectionView flashScrollIndicators];
+    
+    if ([self numProgramsOpened] == 10) {
+        [SKStoreReviewController requestReview];
+    }
 }
 
 - (void)viewDidLayoutSubviews {
@@ -62,6 +69,18 @@
         width = width * 0.5;
     }
     layout.itemSize = CGSizeMake(width, floor(width * 0.8));
+}
+
+- (NSInteger)numProgramsOpened
+{
+    NSUserDefaults *storage = [NSUserDefaults standardUserDefaults];
+    return [storage integerForKey:NumProgramsOpenedKey];
+}
+
+- (void)onProgramOpened
+{
+    NSUserDefaults *storage = [NSUserDefaults standardUserDefaults];
+    [storage setInteger:([storage integerForKey:NumProgramsOpenedKey] + 1) forKey:NumProgramsOpenedKey];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -97,6 +116,7 @@
     vc.runnable = program.runnable;
     vc.programName = program.name;
     [self presentViewController:vc animated:YES completion:nil];
+    [self onProgramOpened];
 }
 
 @end

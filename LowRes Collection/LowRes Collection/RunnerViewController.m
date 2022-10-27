@@ -614,7 +614,9 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
                 if (error != nil)
                 {
                     NSLog(@"** submitScore error: %@", error.localizedDescription);
+                    return;
                 }
+                [GKNotificationBanner showBannerWithTitle:@"New Highscore" message:@"Submitted to Game Center" completionHandler:nil];
             }];
         }
     }

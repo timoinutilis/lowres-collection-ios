@@ -6,9 +6,11 @@
 //
 
 #import "ProgramCell.h"
+#import <GameKit/GameKit.h>
 
 @interface ProgramCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIButton *leaderboardButton;
 @property ProgramModel *programModel;
 @end
 
@@ -22,6 +24,15 @@
 - (void)setupProgramModel:(ProgramModel *)programModel {
     self.programModel = programModel;
     self.imageView.image = programModel.image;
+    if (@available(iOS 14.0, *)) {
+        self.leaderboardButton.hidden = ![[GKLocalPlayer localPlayer] isAuthenticated] || !programModel.hasLeaderboard;
+    } else {
+        self.leaderboardButton.hidden = YES;
+    }
+}
+
+- (IBAction)onLeaderboardAction:(id)sender {
+    [self.delegate didSelectLeaderboardForProgram:self.programModel];
 }
 
 @end

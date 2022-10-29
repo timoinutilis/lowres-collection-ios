@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString *imagePath;
 @property NSString *name;
 @property Runnable *runnable;
+@property BOOL hasLeaderboard;
 
 - (UIImage *)image;
 - (NSString *)sourceCode;

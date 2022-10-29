@@ -16,7 +16,7 @@
 
 NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
 
-@interface ViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource>
+@interface ViewController () <UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, ProgramCellDelegate, GKGameCenterControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property NSMutableArray<ProgramModel *> *programs;
@@ -41,6 +41,7 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
         program.name = [[filename lastPathComponent] stringByDeletingPathExtension];
         program.sourceCodePath = filename;
         program.imagePath = [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"png"];
+        program.hasLeaderboard = i > 0; //HACK hardcoded shit
         [self.programs addObject:program];
     }
     
@@ -54,6 +55,7 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
             if (error != nil) {
                 NSLog(@"** setAuthenticateHandler error: %@", error.localizedDescription);
             }
+            [self.collectionView reloadData];
         }];
     }
 }
@@ -114,6 +116,7 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     ProgramCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"ProgramCell" forIndexPath:indexPath];
+    cell.delegate = self;
     [cell setupProgramModel:self.programs[indexPath.item]];
     return cell;
 }
@@ -142,6 +145,18 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
     vc.programName = program.name;
     [self presentViewController:vc animated:YES completion:nil];
     [self onProgramOpened];
+}
+
+- (void)didSelectLeaderboardForProgram:(nonnull ProgramModel *)program {
+    if (@available(iOS 14.0, *)) {
+        GKGameCenterViewController *vc = [[GKGameCenterViewController alloc] initWithLeaderboardID:program.name playerScope:GKLeaderboardPlayerScopeGlobal timeScope:GKLeaderboardTimeScopeAllTime];
+        vc.gameCenterDelegate = self;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+}
+
+- (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

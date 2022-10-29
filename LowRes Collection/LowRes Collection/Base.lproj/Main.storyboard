@@ -53,16 +53,31 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1" verticalHuggingPriority="1" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="41D-4p-lRQ">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vW8-I1-olA">
+                                                    <rect key="frame" x="76" y="76" width="44" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="2Qq-G5-BLW"/>
+                                                        <constraint firstAttribute="width" constant="44" id="DGe-Hr-WMm"/>
+                                                    </constraints>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="leaderboard"/>
+                                                    <connections>
+                                                        <action selector="onLeaderboardAction:" destination="w6K-VA-Eq1" eventType="touchUpInside" id="pr8-CH-Gfi"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="41D-4p-lRQ" secondAttribute="bottom" id="2EU-C1-ckf"/>
                                                 <constraint firstAttribute="trailing" secondItem="41D-4p-lRQ" secondAttribute="trailing" id="6Kl-hB-WI0"/>
                                                 <constraint firstItem="41D-4p-lRQ" firstAttribute="leading" secondItem="GPf-x8-wqf" secondAttribute="leading" id="PZY-en-q6q"/>
                                                 <constraint firstItem="41D-4p-lRQ" firstAttribute="top" secondItem="GPf-x8-wqf" secondAttribute="top" id="RpW-rQ-zfD"/>
+                                                <constraint firstAttribute="bottom" secondItem="vW8-I1-olA" secondAttribute="bottom" constant="8" id="bap-0S-CnT"/>
+                                                <constraint firstAttribute="trailing" secondItem="vW8-I1-olA" secondAttribute="trailing" constant="8" id="o27-uM-ddz"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
                                             <outlet property="imageView" destination="41D-4p-lRQ" id="5Gv-0O-faR"/>
+                                            <outlet property="leaderboardButton" destination="vW8-I1-olA" id="5A5-jn-bcf"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -87,4 +102,7 @@
             <point key="canvasLocation" x="60.869565217391312" y="99.776785714285708"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="leaderboard" width="25" height="33"/>
+    </resources>
 </document>

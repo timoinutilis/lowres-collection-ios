@@ -10,8 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ProgramCellDelegate <NSObject>
+- (void)didSelectLeaderboardForProgram:(ProgramModel *)program;
+@end
+
 @interface ProgramCell : UICollectionViewCell
 
+@property (weak) id<ProgramCellDelegate> delegate;
 - (void)setupProgramModel:(ProgramModel *)programModel;
 
 @end

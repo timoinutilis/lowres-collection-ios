@@ -25,7 +25,7 @@
     self.programModel = programModel;
     self.imageView.image = programModel.image;
     if (@available(iOS 14.0, *)) {
-        self.leaderboardButton.hidden = ![[GKLocalPlayer localPlayer] isAuthenticated] || !programModel.hasLeaderboard;
+        self.leaderboardButton.hidden = !programModel.hasLeaderboard;
     } else {
         self.leaderboardButton.hidden = YES;
     }

@@ -55,7 +55,6 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
             if (error != nil) {
                 NSLog(@"** setAuthenticateHandler error: %@", error.localizedDescription);
             }
-            [self.collectionView reloadData];
         }];
     }
 }
@@ -74,7 +73,6 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
     
     if (@available(iOS 14.0, *)) {
         [[GKAccessPoint shared] setLocation:GKAccessPointLocationBottomLeading];
-        [[GKAccessPoint shared] setShowHighlights:YES];
         [[GKAccessPoint shared] setActive:YES];
     }
 }
@@ -149,9 +147,15 @@ NSString *const NumProgramsOpenedKey = @"NumProgramsOpened";
 
 - (void)didSelectLeaderboardForProgram:(nonnull ProgramModel *)program {
     if (@available(iOS 14.0, *)) {
-        GKGameCenterViewController *vc = [[GKGameCenterViewController alloc] initWithLeaderboardID:program.name playerScope:GKLeaderboardPlayerScopeGlobal timeScope:GKLeaderboardTimeScopeAllTime];
-        vc.gameCenterDelegate = self;
-        [self presentViewController:vc animated:YES completion:nil];
+        if (![[GKLocalPlayer localPlayer] isAuthenticated]) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No Game Center Session" message:@"Log in to see global leaderboards." preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        } else {
+            GKGameCenterViewController *vc = [[GKGameCenterViewController alloc] initWithLeaderboardID:program.name playerScope:GKLeaderboardPlayerScopeGlobal timeScope:GKLeaderboardTimeScopeAllTime];
+            vc.gameCenterDelegate = self;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
 }
 

@@ -608,7 +608,7 @@ NSString *const UserDefaultsPersistentKey = @"persistent";
 {
     if (@available(iOS 14.0, *)) {
         GKLocalPlayer *player = [GKLocalPlayer localPlayer];
-        if (player != nil)
+        if (player != nil && [player isAuthenticated])
         {
             [GKLeaderboard submitScore:score context:0 player:player leaderboardIDs:@[self.programName] completionHandler:^(NSError * _Nullable error) {
                 if (error != nil)
